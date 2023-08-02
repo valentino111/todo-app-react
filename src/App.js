@@ -102,6 +102,11 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
 
+  function handleSubmit() {
+    onEditTask(task.id, taskText);
+    setIsEditMode(false);
+  }
+
   return (
     <li className="task-item">
       <input
@@ -116,15 +121,6 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
         </p>
       )}
 
-      {isEditMode && (
-        <input
-          type="text"
-          className="task-input"
-          value={taskText}
-          onChange={(e) => setTaskText(e.target.value)}
-        ></input>
-      )}
-
       <div className="task-buttons">
         {!isEditMode && (
           <button className="edit-button" onClick={() => setIsEditMode(true)}>
@@ -133,15 +129,15 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
         )}
 
         {isEditMode && (
-          <button
-            className="edit-button"
-            onClick={() => {
-              onEditTask(task.id, taskText);
-              setIsEditMode(false);
-            }}
-          >
-            Save
-          </button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              className="task-input"
+              value={taskText}
+              onChange={(e) => setTaskText(e.target.value)}
+            ></input>
+            <button className="edit-button">Save</button>
+          </form>
         )}
 
         <button
