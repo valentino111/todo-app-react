@@ -1,13 +1,101 @@
-body {
+/* Reset some default styles for consistency */
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Main container for the Todo App */
+.todo-app {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Task list styles */
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+/* Individual task styles */
+.task-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.task-text {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+/* Task completion styles */
+.task-item.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.task-text.completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Task action buttons */
+.task-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.delete-button,
+.complete-button {
+  cursor: pointer;
+  padding: 5px;
+  border: none;
+  background-color: transparent;
+}
+
+.delete-button {
+  color: #ff4b5c;
+}
+
+.complete-button {
+  color: #007bff;
+}
+
+/* Task form styles */
+.task-form {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.task-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: #0056b3;
 }
