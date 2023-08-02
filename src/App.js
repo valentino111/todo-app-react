@@ -53,7 +53,10 @@ function TodoApp() {
         onToggleTask={handleToggleTask}
         onEditTask={handleEditTask}
       ></TaskList>
-      <ClearCompleted onClearCompleted={handleClearCompleted} />
+      <div className="task-count-and-clear">
+        <TasksCount tasks={tasks} />
+        <ClearCompleted onClearCompleted={handleClearCompleted} />
+      </div>
     </div>
   );
 }
@@ -167,5 +170,22 @@ function ClearCompleted({ onClearCompleted }) {
     <button className="add-button" onClick={() => onClearCompleted()}>
       Clear Completed
     </button>
+  );
+}
+
+function TasksCount({ tasks }) {
+  const completedTasks = tasks.filter((task) => task.completed).length;
+
+  return (
+    <div>
+      <p>
+        <label>Tasks: </label>
+        <label>{tasks.length}</label>
+      </p>
+      <p>
+        <label>Completed: </label>
+        <label>{completedTasks}</label>
+      </p>
+    </div>
   );
 }
