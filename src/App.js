@@ -16,6 +16,7 @@ export default function App() {
 
 function TodoApp() {
   const [tasks, setTasks] = useState(tasksInit);
+  const [filter, setFilter] = useState("All");
 
   function handleAddTask(task) {
     setTasks((tasks) => [...tasks, task]);
@@ -43,15 +44,21 @@ function TodoApp() {
     setTasks(tasks.filter((task) => !task.completed));
   }
 
+  function onFilterSelect(value) {
+    setFilter(value);
+  }
+
   return (
     <div className="todo-app">
       <h1> ✔️ My Todo List</h1>
       <TaskForm onTaskAdd={handleAddTask}></TaskForm>
+      <FilterTasks filter={filter} onFilterSelect={onFilterSelect} />
       <TaskList
         tasks={tasks}
         onDeleteTask={handleDeleteTask}
         onToggleTask={handleToggleTask}
         onEditTask={handleEditTask}
+        filter={filter}
       ></TaskList>
       <div className="task-count-and-clear">
         <TasksCount tasks={tasks} />
@@ -88,11 +95,20 @@ function TaskForm({ onTaskAdd }) {
   );
 }
 
-function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }) {
+function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask, filter }) {
+  let filteredTasks = tasks;
+  if (filter === "Completed") {
+    filteredTasks = tasks.filter((task) => task.completed === true);
+  }
+
+  if (filter === "Not Completed") {
+    filteredTasks = tasks.filter((task) => task.completed === false);
+  }
+
   return (
     <div className="task-list">
       <ul>
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
@@ -186,6 +202,29 @@ function TasksCount({ tasks }) {
         <label>Completed: </label>
         <label>{completedTasks}</label>
       </p>
+    </div>
+  );
+}
+
+function FilterTasks({ filter, onFilterSelect }) {
+  return (
+    <div className="task-count-and-clear">
+      <label>Fiter Tasks: </label>
+      <select
+        className="add-button"
+        value={filter}
+        onChange={(e) => onFilterSelect(e.target.value)}
+      >
+        <option key="1" value="All">
+          All
+        </option>
+        <option key="2" value="Not Completed">
+          Not Completed
+        </option>
+        <option key="3" value="Completed">
+          Completed
+        </option>
+      </select>
     </div>
   );
 }
