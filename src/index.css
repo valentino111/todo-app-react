@@ -111,3 +111,11 @@ body {
   justify-content: space-between; /* Space components evenly */
   margin: 10px 0; /* Optional margin for spacing */
 }
+
+.priority {
+  padding: 4px 8px;
+  border: none;
+  background-color: #ff6f00;
+  color: #fff;
+  border-radius: 5px;
+}

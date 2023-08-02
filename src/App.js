@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 const tasksInit = [
-  { id: 1, text: "Task 1", completed: false },
-  { id: 2, text: "Task 2", completed: true },
-  { id: 3, text: "Task 3", completed: false },
+  { id: 1, text: "Task 1", completed: false, priority: 1 },
+  { id: 2, text: "Task 2", completed: true, priority: 3 },
+  { id: 3, text: "Task 3", completed: false, priority: 2 },
 ];
 
 export default function App() {
@@ -70,13 +70,19 @@ function TodoApp() {
 
 function TaskForm({ onTaskAdd }) {
   const [taskText, setTaskText] = useState("");
+  const [priority, setPriority] = useState("1");
 
   function handleSubmit(e) {
     e.preventDefault();
 
     if (!taskText) return;
 
-    const newTask = { id: Date.now(), text: taskText, completed: false };
+    const newTask = {
+      id: Date.now(),
+      text: taskText,
+      completed: false,
+      priority: priority,
+    };
     onTaskAdd(newTask);
     setTaskText("");
   }
@@ -90,12 +96,33 @@ function TaskForm({ onTaskAdd }) {
         onChange={(e) => setTaskText(e.target.value)}
       ></input>
 
+      <select
+        value={priority}
+        onChange={(e) => setPriority(Number(e.target.value))}
+      >
+        <option key="1" value="1">
+          1
+        </option>
+        <option key="2" value="2">
+          2
+        </option>
+        <option key="3" value="3">
+          3
+        </option>
+      </select>
       <button className="add-button">Add Task</button>
     </form>
   );
 }
 
-function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask, filter }) {
+function TaskList({
+  tasks,
+  onDeleteTask,
+  onToggleTask,
+  onEditTask,
+  filter,
+  priority,
+}) {
   let filteredTasks = tasks;
   if (filter === "Completed") {
     filteredTasks = tasks.filter((task) => task.completed === true);
@@ -105,16 +132,20 @@ function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask, filter }) {
     filteredTasks = tasks.filter((task) => task.completed === false);
   }
 
+  let sortedTasks = filteredTasks;
+  sortedTasks.sort((a, b) => a.priority - b.priority);
+
   return (
     <div className="task-list">
       <ul>
-        {filteredTasks.map((task) => (
+        {sortedTasks.map((task) => (
           <TaskItem
             key={task.id}
             task={task}
             onDeleteTask={onDeleteTask}
             onToggleTask={onToggleTask}
             onEditTask={onEditTask}
+            priority={priority}
           />
         ))}
       </ul>
@@ -140,6 +171,8 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
         checked={task.completed}
         onChange={() => onToggleTask(task.id)}
       />
+
+      <label className="priority">{task.priority}</label>
 
       {!isEditMode && (
         <p className={`task-text ${task.completed ? "completed" : ""}`}>
