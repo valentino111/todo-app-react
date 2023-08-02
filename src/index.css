@@ -59,7 +59,8 @@ body {
 }
 
 .delete-button,
-.complete-button {
+.complete-button,
+.edit-button {
   cursor: pointer;
   padding: 5px;
   border: none;
@@ -72,6 +73,10 @@ body {
 
 .complete-button {
   color: #007bff;
+}
+
+.edit-button {
+  color: #15863e;
 }
 
 /* Task form styles */

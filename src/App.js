@@ -33,6 +33,12 @@ function TodoApp() {
     );
   }
 
+  function handleEditTask(id, newText) {
+    setTasks(
+      tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
+    );
+  }
+
   return (
     <div className="todo-app">
       <h1> ✔️ My Todo List</h1>
@@ -41,6 +47,7 @@ function TodoApp() {
         tasks={tasks}
         onDeleteTask={handleDeleteTask}
         onToggleTask={handleToggleTask}
+        onEditTask={handleEditTask}
       ></TaskList>
     </div>
   );
@@ -73,7 +80,7 @@ function TaskForm({ onTaskAdd }) {
   );
 }
 
-function TaskList({ tasks, onDeleteTask, onToggleTask }) {
+function TaskList({ tasks, onDeleteTask, onToggleTask, onEditTask }) {
   return (
     <div className="task-list">
       <ul>
@@ -83,6 +90,7 @@ function TaskList({ tasks, onDeleteTask, onToggleTask }) {
             task={task}
             onDeleteTask={onDeleteTask}
             onToggleTask={onToggleTask}
+            onEditTask={onEditTask}
           />
         ))}
       </ul>
@@ -90,7 +98,10 @@ function TaskList({ tasks, onDeleteTask, onToggleTask }) {
   );
 }
 
-function TaskItem({ task, onDeleteTask, onToggleTask }) {
+function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [taskText, setTaskText] = useState(task.text);
+
   return (
     <li className="task-item">
       <input
@@ -99,11 +110,40 @@ function TaskItem({ task, onDeleteTask, onToggleTask }) {
         onChange={() => onToggleTask(task.id)}
       />
 
-      <p className={`task-text ${task.completed ? "completed" : ""}`}>
-        {task.text}
-      </p>
+      {!isEditMode && (
+        <p className={`task-text ${task.completed ? "completed" : ""}`}>
+          {task.text}
+        </p>
+      )}
+
+      {isEditMode && (
+        <input
+          type="text"
+          className="task-input"
+          value={taskText}
+          onChange={(e) => setTaskText(e.target.value)}
+        ></input>
+      )}
 
       <div className="task-buttons">
+        {!isEditMode && (
+          <button className="edit-button" onClick={() => setIsEditMode(true)}>
+            Edit
+          </button>
+        )}
+
+        {isEditMode && (
+          <button
+            className="edit-button"
+            onClick={() => {
+              onEditTask(task.id, taskText);
+              setIsEditMode(false);
+            }}
+          >
+            Save
+          </button>
+        )}
+
         <button
           className="complete-button"
           onClick={() => onToggleTask(task.id)}
