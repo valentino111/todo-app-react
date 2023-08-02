@@ -39,6 +39,10 @@ function TodoApp() {
     );
   }
 
+  function handleClearCompleted() {
+    setTasks(tasks.filter((task) => !task.completed));
+  }
+
   return (
     <div className="todo-app">
       <h1> ✔️ My Todo List</h1>
@@ -49,6 +53,7 @@ function TodoApp() {
         onToggleTask={handleToggleTask}
         onEditTask={handleEditTask}
       ></TaskList>
+      <ClearCompleted onClearCompleted={handleClearCompleted} />
     </div>
   );
 }
@@ -102,7 +107,9 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [taskText, setTaskText] = useState(task.text);
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
+
     onEditTask(task.id, taskText);
     setIsEditMode(false);
   }
@@ -152,5 +159,13 @@ function TaskItem({ task, onDeleteTask, onToggleTask, onEditTask }) {
         </button>
       </div>
     </li>
+  );
+}
+
+function ClearCompleted({ onClearCompleted }) {
+  return (
+    <button className="add-button" onClick={() => onClearCompleted()}>
+      Clear Completed
+    </button>
   );
 }
