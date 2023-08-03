@@ -11,7 +11,7 @@ body {
 
 /* Main container for the Todo App */
 .todo-app {
-  max-width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
@@ -118,4 +118,21 @@ body {
   background-color: #ff6f00;
   color: #fff;
   border-radius: 5px;
+}
+
+.priority.high {
+  background-color: #ff0000;
+}
+
+.priority.low {
+  background-color: #31c638;
+}
+
+.priority.completed {
+  background-color: #9ba59e;
+}
+
+.logo {
+  color: #15863e;
+  text-align-last: center;
 }
